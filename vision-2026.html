@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision 2026 — Atlas Géopolitique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0a0a0a;
+            --color-surface: #1a1a1a;
+            --color-text: #e8e8e8;
+            --color-text-muted: #a0a0a0;
+            --color-accent: #d4af37;
+            --color-accent-dim: #8b7623;
+            --color-border: #2a2a2a;
+            --color-warning: #c85a54;
+            --color-success: #4ade80;
+            --color-info: #60a5fa;
+            --font-serif: 'Crimson Pro', Georgia, serif;
+            --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 5rem;
+            padding-bottom: 3rem;
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        .header-tag {
+            color: var(--color-accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .header-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .header-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .intro {
+            background: var(--color-surface);
+            border-left: 3px solid var(--color-accent);
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-number {
+            display: inline-block;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--color-accent);
+            color: var(--color-bg);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 2.5rem 0 1.2rem;
+        }
+
+        p {
+            margin-bottom: 1.3rem;
+            line-height: 1.8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        li {
+            padding-left: 1.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(212, 175, 55, 0.08);
+            border-left: 3px solid var(--color-accent);
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(200, 90, 84, 0.1);
+            border-left: 3px solid var(--color-warning);
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .info-box {
+            background: rgba(96, 165, 250, 0.08);
+            border-left: 3px solid var(--color-info);
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .chart-container {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .chart-title {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .chart-description {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            min-width: 180px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dim));
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: width 1s ease;
+        }
+
+        .bar-fill.danger {
+            background: linear-gradient(90deg, var(--color-warning), #9a4540);
+        }
+
+        .bar-fill.success {
+            background: linear-gradient(90deg, var(--color-success), #22c55e);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            border: 2px solid var(--color-bg);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .timeline-content {
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* Allocation Pie */
+        .allocation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .allocation-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--color-border);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .allocation-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-4px);
+        }
+
+        .allocation-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .allocation-name {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 0.8rem;
+        }
+
+        .allocation-desc {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        /* Energy Density Chart */
+        .energy-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .energy-source {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--color-border);
+        }
+
+        .energy-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .energy-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .energy-value {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 0.3rem;
+        }
+
+        .energy-unit {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        .energy-source.winner {
+            border-color: var(--color-accent);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+        }
+
+        .data-table th {
+            background: rgba(212, 175, 55, 0.08);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--color-accent);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .header {
+                margin-bottom: 3rem;
+            }
+
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+            }
+
+            .bar-label {
+                min-width: 120px;
+                font-size: 0.85rem;
+            }
+
+            .allocation-grid,
+            .energy-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--color-accent);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--color-text);
+            transform: translateX(-4px);
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .scenario-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--color-border);
+            padding: 1.8rem;
+        }
+
+        .scenario-title {
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .scenario-prob {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="./geopolitique-finance.html" class="back-link">← Retour à l'accueil</a>
+
+        <div class="header">
+            <div class="header-tag">Analyse stratégique 2026</div>
+            <h1 class="header-title">Vision 2026</h1>
+            <p class="header-subtitle">
+                Une analyse géopolitique, énergétique et financière des forces structurelles qui façonnent 
+                les marchés : dette, énergie, souveraineté, technologie et finance onchain.
+            </p>
+        </div>
+
+        <div class="intro">
+            <p style="margin: 0;">
+                Cette vision repose sur une grille de lecture multidisciplinaire combinant géopolitique, 
+                physique énergétique et innovation financière. L'objectif est de comprendre les grandes 
+                forces structurelles mondiales — endettement massif, transitions énergétiques, tensions 
+                de souveraineté, révolution technologique et émergence de la finance onchain — pour 
+                identifier des opportunités d'allocation cohérentes avec ces dynamiques de long terme.
+            </p>
+        </div>
+
+        <!-- SECTION 1: MACRO -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-number">1</span>
+                Thèse macro : sortie du marché US
+            </h2>
+
+            <p>
+                Le marché actions américain traverse une phase de concentration extrême et de valorisations 
+                étirées. Une analyse des fondamentaux macroéconomiques et des risques structurels conduit 
+                à envisager une <strong>sortie progressive des positions sur indices américains</strong>, 
+                avec un point de sortie optimal situé autour de <em>7 300 points sur le S&P 500</em>.
+            </p>
+
+            <div class="warning-box">
+                <h3 style="margin-bottom: 1rem; color: var(--color-warning); font-size: 1.2rem;">
+                    Scénario de correction envisagé
+                </h3>
+                <p style="margin-bottom: 1rem;">
+                    Une correction vers la zone des <strong>5 500 points</strong> est considérée comme probable 
+                    dans les 12-24 prochains mois, soit une baisse d'environ 25% depuis les sommets actuels.
+                </p>
+                <p style="margin: 0; font-size: 0.95rem; color: var(--color-text-muted);">
+                    Ce scénario n'est pas une prédiction certaine, mais une analyse de risque justifiant 
+                    une désensibilisation progressive au marché américain.
+                </p>
+            </div>
+
+            <h3 class="section-subtitle">Facteurs structurels justifiant cette thèse</h3>
+
+            <div class="chart-container">
+                <div class="chart-title">Facteurs de risque — Marché US (évaluation qualitative)</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">Dette publique</div>
+                        <div class="bar-track">
+                            <div class="bar-fill danger" style="width: 85%;">Critique</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Coût du capital</div>
+                        <div class="bar-track">
+                            <div class="bar-fill danger" style="width: 75%;">Élevé</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Concentration marché</div>
+                        <div class="bar-track">
+                            <div class="bar-fill danger" style="width: 90%;">Extrême</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Risques géopolitiques</div>
+                        <div class="bar-track">
+                            <div class="bar-fill danger" style="width: 70%;">Élevé</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Valorisations (PER)</div>
+                        <div class="bar-track">
+                            <div class="bar-fill danger" style="width: 80%;">Étirées</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="chart-description">
+                    Évaluation des principaux facteurs de risque pesant sur le marché actions américain en 2026
+                </p>
+            </div>
+
+            <h4 style="color: var(--color-accent); margin: 2rem 0 1rem; font-size: 1.2rem;">
+                1. Dette publique insoutenable
+            </h4>
+            <p>
+                La dette publique américaine dépasse désormais 120% du PIB, avec des déficits structurels 
+                dépassant 6-7% du PIB annuellement. Le service de la dette devient le premier poste budgétaire, 
+                dépassant même la défense. Cette dynamique est <strong>incompatible avec des taux d'intérêt 
+                durablement élevés</strong>.
+            </p>
+
+            <h4 style="color: var(--color-accent); margin: 2rem 0 1rem; font-size: 1.2rem;">
+                2. Coût du capital structurellement plus élevé
+            </h4>
+            <p>
+                Après 15 ans de taux zéro (2008-2022), l'économie américaine doit s'adapter à un environnement 
+                de taux réels positifs. Les secteurs surendettés (tech growth, immobilier commercial, private 
+                equity) subissent une pression majeure sur leurs valorisations.
+            </p>
+
+            <h4 style="color: var(--color-accent); margin: 2rem 0 1rem; font-size: 1.2rem;">
+                3. Fragilités géopolitiques
+            </h4>
+            <ul>
+                <li>Tensions Chine-USA croissantes (semi-conducteurs, Taïwan, terres rares)</li>
+                <li>Dédollarisation progressive menée par les BRICS</li>
+                <li>Risque de fragmentation du commerce mondial (démondialisation)</li>
+                <li>Vulnérabilité des chaînes d'approvisionnement stratégiques</li>
+            </ul>
+
+            <h4 style="color: var(--color-accent); margin: 2rem 0 1rem; font-size: 1.2rem;">
+                4. Concentration excessive du marché
+            </h4>
+            <p>
+                Les 7 "Magnificent Seven" (Apple, Microsoft, Alphabet, Amazon, Nvidia, Meta, Tesla) représentent 
+                environ 30% de la capitalisation du S&P 500. Cette concentration crée un risque systémique : 
+                une correction sur ces valeurs entraînerait mécaniquement l'ensemble du marché.
+            </p>
+
+            <div class="highlight-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-accent);">Stratégie de sortie envisagée</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">Phase 1 — Immédiat à S&P 7300</div>
+                        <div class="timeline-content">
+                            Réduction progressive des positions indices US (ETF S&P 500, Nasdaq). Objectif : 
+                            sortir 70% de l'exposition avant franchissement 7300 points.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Phase 2 — S&P 7300 franchi</div>
+                        <div class="timeline-content">
+                            Sortie complète des 30% restants. Réallocation vers cash (CHF), métaux stratégiques 
+                            et finance onchain.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Phase 3 — Après correction (zone 5500)</div>
+                        <div class="timeline-content">
+                            Réévaluation opportuniste. Si fondamentaux s'améliorent (réduction déficits, 
+                            apaisement géopolitique), reprise de positions sélectives possible.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p style="margin: 0; font-size: 0.95rem;">
+                    <strong style="color: var(--color-warning);">Note importante :</strong> 
+                    Cette analyse reflète une vision personnelle basée sur des données macro et géopolitiques. 
+                    Elle ne constitue en aucun cas un conseil en investissement. Les marchés peuvent rester 
+                    irrationnels plus longtemps que prévu, et un scénario haussier prolongé reste possible.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ÉNERGIE -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-number">2</span>
+                Thèse énergétique : nucléaire et métaux stratégiques
+            </h2>
+
+            <p>
+                L'énergie est la contrainte fondamentale de toute activité économique. La transition vers 
+                l'IA, les datacenters et la réindustrialisation créent une <strong>demande énergétique 
+                croissante et concentrée</strong> que les sources intermittentes (solaire, éolien) ne peuvent 
+                satisfaire seules. Le nucléaire s'impose comme la seule solution viable pour fournir une 
+                énergie <em>dense, stable et pilotable</em>.
+            </p>
+
+            <h3 class="section-subtitle">Le paradigme de la densité énergétique</h3>
+
+            <p>
+                Toutes les sources d'énergie ne se valent pas. La <strong>densité énergétique</strong> — mesurée 
+                en joules par kilogramme — détermine la capacité d'une source à alimenter des industries lourdes 
+                et des infrastructures critiques de manière continue et compacte.
+            </p>
+
+            <div class="chart-container">
+                <div class="chart-title">Densité énergétique comparée (MJ/kg)</div>
+                <div class="energy-comparison">
+                    <div class="energy-source">
+                        <div class="energy-icon">☀️</div>
+                        <div class="energy-name">Solaire</div>
+                        <div class="energy-value">~0.2</div>
+                        <div class="energy-unit">MJ/kg/jour</div>
+                    </div>
+                    <div class="energy-source">
+                        <div class="energy-icon">💨</div>
+                        <div class="energy-name">Éolien</div>
+                        <div class="energy-value">~0.5</div>
+                        <div class="energy-unit">MJ/kg/jour</div>
+                    </div>
+                    <div class="energy-source">
+                        <div class="energy-icon">⚡</div>
+                        <div class="energy-name">Charbon</div>
+                        <div class="energy-value">24</div>
+                        <div class="energy-unit">MJ/kg</div>
+                    </div>
+                    <div class="energy-source">
+                        <div class="energy-icon">🛢️</div>
+                        <div class="energy-name">Pétrole</div>
+                        <div class="energy-value">42</div>
+                        <div class="energy-unit">MJ/kg</div>
+                    </div>
+                    <div class="energy-source winner">
+                        <div class="energy-icon">☢️</div>
+                        <div class="energy-name">Uranium</div>
+                        <div class="energy-value">80M</div>
+                        <div class="energy-unit">MJ/kg</div>
+                    </div>
+                </div>
+                <p class="chart-description">
+                    L'uranium offre une densité énergétique environ <strong>2 millions de fois supérieure</strong> 
+                    au pétrole. 1 kg d'uranium enrichi = équivalent énergétique de ~3000 tonnes de charbon.
+                </p>
+            </div>
+
+            <h3 class="section-subtitle">Impossibilité du "tout renouvelable" pour certaines industries</h3>
+
+            <p>
+                Certains secteurs industriels nécessitent une énergie <strong>constante, concentrée et 
+                disponible 24/7</strong> :
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Datacenters IA :</strong> Les modèles d'IA avancés (GPT-5+, entraînement de modèles) 
+                    consomment des centaines de mégawatts en continu. Une interruption = perte de calculs valant 
+                    des millions de dollars.
+                </li>
+                <li>
+                    <strong>Sidérurgie et métallurgie :</strong> La production d'acier, d'aluminium et de cuivre 
+                    nécessite des températures de 1500°C+ et une alimentation électrique ininterrompue.
+                </li>
+                <li>
+                    <strong>Production de semi-conducteurs :</strong> Les fabs (usines de puces) consomment 
+                    autant qu'une petite ville et ne tolèrent aucune coupure (pertes en millions/heure).
+                </li>
+                <li>
+                    <strong>Hydrogène vert :</strong> L'électrolyse pour produire de l'hydrogène bas-carbone 
+                    nécessite une électricité abondante et stable.
+                </li>
+            </ul>
+
+            <div class="info-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-info); font-size: 1.2rem;">
+                    Le problème de l'intermittence
+                </h4>
+                <p style="margin-bottom: 1rem;">
+                    Le solaire et l'éolien sont <strong>intermittents par nature</strong> (facteur de charge 
+                    20-35%). Même avec des batteries, il est physiquement et économiquement irréaliste de 
+                    stocker suffisamment d'énergie pour alimenter une usine métallurgique pendant plusieurs 
+                    jours sans vent ni soleil.
+                </p>
+                <p style="margin: 0;">
+                    <strong>Solution :</strong> Mix énergétique combinant renouvelables (quand disponibles) 
+                    et nucléaire (socle de base pilotable).
+                </p>
+            </div>
+
+            <h3 class="section-subtitle">Le nucléaire : seule énergie dense, stable et pilotable</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Critère</th>
+                        <th>Nucléaire</th>
+                        <th>Solaire/Éolien</th>
+                        <th>Gaz/Charbon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Disponibilité (facteur de charge)</td>
+                        <td style="color: var(--color-success); font-weight: 600;">90-95%</td>
+                        <td style="color: var(--color-warning);">20-35%</td>
+                        <td style="color: var(--color-success);">70-85%</td>
+                    </tr>
+                    <tr>
+                        <td>Densité énergétique</td>
+                        <td style="color: var(--color-success); font-weight: 600;">Extrême</td>
+                        <td style="color: var(--color-warning);">Très faible</td>
+                        <td>Modérée</td>
+                    </tr>
+                    <tr>
+                        <td>Émissions CO₂ (g/kWh)</td>
+                        <td style="color: var(--color-success); font-weight: 600;">6</td>
+                        <td style="color: var(--color-success); font-weight: 600;">10-40</td>
+                        <td style="color: var(--color-warning);">400-1000</td>
+                    </tr>
+                    <tr>
+                        <td>Pilotabilité (ajustement production)</td>
+                        <td style="color: var(--color-success); font-weight: 600;">Excellente</td>
+                        <td style="color: var(--color-warning);">Nulle</td>
+                        <td style="color: var(--color-success); font-weight: 600;">Excellente</td>
+                    </tr>
+                    <tr>
+                        <td>Coût par MWh (LCOE)</td>
+                        <td>40-80 $/MWh</td>
+                        <td>30-60 $/MWh</td>
+                        <td>50-150 $/MWh</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-subtitle">Opportunités d'investissement : uranium et cuivre</h3>
+
+            <p>
+                La renaissance nucléaire mondiale (nouveaux réacteurs en Chine, Inde, Europe de l'Est, USA) 
+                et l'électrification massive (véhicules électriques, datacenters, grids intelligents) créent 
+                une demande structurelle sur deux métaux stratégiques :
+            </p>
+
+            <div class="highlight-box">
+                <h4 style="margin-bottom: 1.2rem; color: var(--color-accent); font-size: 1.2rem;">
+                    Uranium (U₃O₈)
+                </h4>
+                <ul>
+                    <li>
+                        <strong>Catalyseur :</strong> 60+ nouveaux réacteurs en construction dans le monde, 
+                        150+ en projet
+                    </li>
+                    <li>
+                        <strong>Déficit d'offre :</strong> Production minière couvre seulement 80% de la demande 
+                        actuelle (le reste vient de stocks stratégiques en diminution)
+                    </li>
+                    <li>
+                        <strong>Prix :</strong> Actuellement ~80 $/lb, potentiel à 100-120 $/lb d'ici 2027
+                    </li>
+                    <li>
+                        <strong>Exposition :</strong> ETF uranium (URNM, URA), minières (Cameco, Kazatomprom)
+                    </li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4 style="margin-bottom: 1.2rem; color: var(--color-accent); font-size: 1.2rem;">
+                    Cuivre
+                </h4>
+                <ul>
+                    <li>
+                        <strong>Catalyseur :</strong> Transition énergétique (1 véhicule électrique = 80 kg cuivre), 
+                        infrastructures de recharge, grids électriques, datacenters
+                    </li>
+                    <li>
+                        <strong>Déficit annoncé :</strong> Goldman Sachs prévoit un déficit de 8-10 Mt d'ici 2030 
+                        (mines insuffisantes en développement)
+                    </li>
+                    <li>
+                        <strong>Prix :</strong> Actuellement ~9 000 $/t, potentiel à 12 000-15 000 $/t
+                    </li>
+                    <li>
+                        <strong>Exposition :</strong> ETF métaux industriels, minières (Freeport-McMoRan, BHP, 
+                        Southern Copper)
+                    </li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Lien avec la dévaluation du dollar</h3>
+
+            <p>
+                Si le dollar poursuit sa dévaluation relative (dette US, déficits persistants, dédollarisation 
+                partielle), les commodités physiques — particulièrement celles avec une demande structurelle 
+                comme l'uranium et le cuivre — bénéficient mécaniquement :
+            </p>
+
+            <ul>
+                <li>Ils sont <strong>libellés en dollars</strong> mais représentent une <strong>valeur réelle</strong></li>
+                <li>Leur rareté physique ne peut être "imprimée" contrairement à la monnaie fiat</li>
+                <li>Historiquement, lors de phases de dévaluation monétaire, les matières premières surperforment</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 3: FINANCE ONCHAIN -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-number">3</span>
+                Thèse financière : finance onchain
+            </h2>
+
+            <p>
+                Les marchés financiers traditionnels sont fermés 71% du temps (weekends + jours fériés). 
+                Cette contrainte héritée du XXe siècle devient obsolète à l'ère numérique. La <strong>finance 
+                onchain</strong> permet de trader actions, métaux, devises et dérivés <em>24/7, sans 
+                intermédiaire, de manière non-custodiale</em>.
+            </p>
+
+            <h3 class="section-subtitle">Le problème des marchés fermés</h3>
+
+            <div class="chart-container">
+                <div class="chart-title">Disponibilité des marchés financiers</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">Marchés actions (NYSE, Nasdaq)</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 29%;">29%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Marchés forex (majors)</div>
+                        <div class="bar-track">
+                            <div class="bar-fill success" style="width: 95%;">95%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Crypto (CEX traditionnels)</div>
+                        <div class="bar-track">
+                            <div class="bar-fill success" style="width: 100%;">100%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Finance onchain (DEX)</div>
+                        <div class="bar-track">
+                            <div class="bar-fill success" style="width: 100%;">100%</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="chart-description">
+                    Pourcentage du temps pendant lequel chaque marché est accessible au trading
+                </p>
+            </div>
+
+            <p>
+                Conséquences de cette fermeture :
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Gap risk :</strong> Les événements du weekend (géopolitiques, économiques) créent 
+                    des "gaps" d'ouverture lundi matin, souvent défavorables aux positions ouvertes
+                </li>
+                <li>
+                    <strong>Immobilisation du capital :</strong> Impossible d'ajuster une position ou de prendre 
+                    des profits pendant 2,5 jours chaque semaine
+                </li>
+                <li>
+                    <strong>Asymétrie d'information :</strong> Seuls les institutionnels ont accès à des marchés 
+                    dérivés OTC ouverts 24/7
+                </li>
+            </ul>
+
+            <h3 class="section-subtitle">Hyperliquid : infrastructure de finance onchain avancée</h3>
+
+            <p>
+                <strong>Hyperliquid</strong> est une blockchain L1 spécialisée dans le trading perpétuel 
+                (contrats à terme sans expiration) avec un carnet d'ordres onchain. Contrairement aux DEX 
+                classiques (Uniswap, dYdX v3), Hyperliquid combine :
+            </p>
+
+            <div class="info-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-info); font-size: 1.2rem;">
+                    Caractéristiques techniques
+                </h4>
+                <ul style="margin: 0;">
+                    <li>
+                        <strong>Carnet d'ordres onchain pur (CLOB) :</strong> Matching ultra-rapide (~0.2s latence), 
+                        similaire aux CEX centralisés mais entièrement transparent et vérifiable
+                    </li>
+                    <li>
+                        <strong>Non-custodial :</strong> Vous gardez vos clés privées, pas de risque de contrepartie 
+                        (pas de "FTX v2")
+                    </li>
+                    <li>
+                        <strong>Levier jusqu'à 50x :</strong> Sur 200+ paires (crypto, mais aussi futures sur or, 
+                        pétrole, indices actions tokenisés)
+                    </li>
+                    <li>
+                        <strong>Frais minimaux :</strong> 0.02% maker / 0.05% taker (vs 0.1-0.3% sur CEX centralisés)
+                    </li>
+                    <li>
+                        <strong>Pas de KYC :</strong> Accès permissionless, pas de blocage géographique
+                    </li>
+                </ul>
+            </div>
+
+            <h4 style="color: var(--color-accent); margin: 2rem 0 1rem; font-size: 1.2rem;">
+                Pourquoi Hyperliquid plutôt qu'un CEX traditionnel ?
+            </h4>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Critère</th>
+                        <th>Hyperliquid (onchain)</th>
+                        <th>CEX (Binance, Bybit, etc.)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Garde des fonds</td>
+                        <td style="color: var(--color-success); font-weight: 600;">Non-custodial (vos clés)</td>
+                        <td style="color: var(--color-warning);">Custodial (risque contrepartie)</td>
+                    </tr>
+                    <tr>
+                        <td>Transparence</td>
+                        <td style="color: var(--color-success); font-weight: 600;">100% onchain vérifiable</td>
+                        <td style="color: var(--color-warning);">Opaque (bases de données privées)</td>
+                    </tr>
+                    <tr>
+                        <td>KYC / Restrictions géo</td>
+                        <td style="color: var(--color-success); font-weight: 600;">Aucun (permissionless)</td>
+                        <td style="color: var(--color-warning);">Obligatoire + blocages pays</td>
+                    </tr>
+                    <tr>
+                        <td>Risque de faillite</td>
+                        <td style="color: var(--color-success); font-weight: 600;">Inexistant (protocole)</td>
+                        <td style="color: var(--color-warning);">Élevé (FTX, Celsius, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td>Frais</td>
+                        <td style="color: var(--color-success); font-weight: 600;">0.02-0.05%</td>
+                        <td>0.02-0.10%</td>
+                    </tr>
+                    <tr>
+                        <td>Vitesse exécution</td>
+                        <td>~0.2s</td>
+                        <td>~0.05s</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-subtitle">Prediction markets : le futur de l'information</h3>
+
+            <p>
+                Les <strong>prediction markets</strong> (marchés de prédiction) permettent de parier sur 
+                l'issue d'événements futurs : élections, décisions de politique monétaire, lancements de 
+                produits, indicateurs économiques, etc.
+            </p>
+
+            <div class="highlight-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-accent); font-size: 1.2rem;">
+                    Pourquoi les prediction markets sont supérieurs aux sondages
+                </h4>
+                <p style="margin-bottom: 1rem;">
+                    Contrairement aux sondages d'opinion (biais de désirabilité sociale, échantillons non 
+                    représentatifs), les prediction markets agrègent l'information de participants qui 
+                    <strong>mettent leur argent en jeu</strong>. Cela crée une incitation forte à la précision.
+                </p>
+                <p style="margin: 0;">
+                    <strong>Exemple :</strong> Lors de l'élection présidentielle US 2024, les prediction markets 
+                    (Polymarket) ont prédit la victoire de Trump avec 60% de probabilité dès fin octobre, alors 
+                    que les sondages traditionnels donnaient une course serrée 50-50. Les marchés avaient raison.
+                </p>
+            </div>
+
+            <h4 style="color: var(--color-accent); margin: 2rem 0 1rem; font-size: 1.2rem;">
+                Intégration potentielle sur Hyperliquid
+            </h4>
+
+            <p>
+                Hyperliquid pourrait intégrer des <strong>prediction markets natifs</strong> en utilisant 
+                son infrastructure de carnet d'ordres :
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Contrats perpétuels binaires :</strong> Paires "YES/NO" sur événements futurs 
+                    (ex: "Fed baissera taux en mars 2026 : YES/NO")
+                </li>
+                <li>
+                    <strong>Settlement automatique via oracles :</strong> Chainlink ou Pyth pour résoudre 
+                    l'issue de manière décentralisée
+                </li>
+                <li>
+                    <strong>Liquidité profonde :</strong> Le système de market makers d'Hyperliquid garantirait 
+                    des spreads serrés
+                </li>
+                <li>
+                    <strong>Effet de réseau :</strong> Combiner trading crypto + actions tokenisées + prediction 
+                    markets sur une seule plateforme créerait un "super-app" de finance onchain
+                </li>
+            </ul>
+
+            <div class="info-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-info); font-size: 1.2rem;">
+                    Cas d'usage concrets
+                </h4>
+                <p style="margin-bottom: 0.8rem; font-weight: 600;">
+                    Pour un analyste géopolitique :
+                </p>
+                <ul style="margin: 0;">
+                    <li>
+                        <strong>Hedger des thèses :</strong> Position longue uranium + hedge via prediction market 
+                        "Nouveau réacteur nucléaire annoncé Q1 2026 : NO"
+                    </li>
+                    <li>
+                        <strong>Monétiser des convictions :</strong> Si vous pensez que Trump imposera des tarifs 
+                        sur la Chine, parier sur "Tarifs >25% sur électronique chinois avant juin 2026 : YES"
+                    </li>
+                    <li>
+                        <strong>Signaux d'information :</strong> Les prix des prediction markets révèlent les 
+                        probabilités réelles perçues par le marché (vs narratifs médiatiques)
+                    </li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Finance onchain : allocation stratégique</h3>
+
+            <p>
+                L'investissement dans l'écosystème finance onchain se fait via :
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Tokens de plateformes :</strong> HYPE (Hyperliquid), DYDX (dYdX), GMX (GMX), etc.
+                </li>
+                <li>
+                    <strong>Liquidité déployée :</strong> Devenir market maker sur Hyperliquid (yields via 
+                    spreads bid-ask)
+                </li>
+                <li>
+                    <strong>Staking / Governance :</strong> Participer à la gouvernance des protocoles 
+                    (votes sur paramètres, nouvelles paires)
+                </li>
+            </ul>
+
+            <p>
+                Le risque principal reste la <strong>jeunesse de l'infrastructure</strong> (bugs de smart 
+                contracts, problèmes de scalabilité), mais le potentiel de disruption des marchés traditionnels 
+                justifie une allocation prudente mais significative.
+            </p>
+        </section>
+
+        <!-- SECTION 4: ALLOCATION -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-number">4</span>
+                Allocation stratégique 2026
+            </h2>
+
+            <p>
+                L'allocation proposée repose sur <strong>trois axes thématiques</strong> correspondant aux 
+                thèses développées précédemment. Cette allocation est <em>évolutive</em>, <em>revue 
+                trimestriellement</em>, et <em>ajustée selon les faits</em>.
+            </p>
+
+            <div class="allocation-grid">
+                <div class="allocation-card">
+                    <div class="allocation-icon">🚀</div>
+                    <div class="allocation-name">Hype / Innovation financière</div>
+                    <div class="allocation-desc">
+                        Finance onchain (Hyperliquid, dYdX, GMX), prediction markets, infrastructure blockchain L1/L2.
+                    </div>
+                </div>
+
+                <div class="allocation-card">
+                    <div class="allocation-icon">☢️</div>
+                    <div class="allocation-name">Nucléaire / Énergie dense</div>
+                    <div class="allocation-desc">
+                        Uranium (ETF, minières), cuivre, métaux critiques pour transition énergétique et datacenters IA.
+                    </div>
+                </div>
+
+                <div class="allocation-card">
+                    <div class="allocation-icon">🇨🇭</div>
+                    <div class="allocation-name">Franc suisse (CHF)</div>
+                    <div class="allocation-desc">
+                        Devise refuge face à l'endettement US, dévaluation dollar, et risques géopolitiques croissants.
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Répartition indicative</h3>
+
+            <div class="chart-container">
+                <div class="chart-title">Allocation cible (indicative, sujette à révision)</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <div class="bar-label">Hype / Finance onchain</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 40%;">40%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Nucléaire / Métaux</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 35%;">35%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="bar-label">Franc suisse (CHF)</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 25%;">25%</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="chart-description">
+                    Cette répartition reflète une conviction forte sur l'innovation financière onchain et 
+                    l'énergie nucléaire, avec un coussin de sécurité en CHF.
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-accent); font-size: 1.2rem;">
+                    Principes d'allocation
+                </h4>
+                <ul style="margin: 0;">
+                    <li>
+                        <strong>Concentration assumée :</strong> Pas de diversification excessive. 3 thèmes forts 
+                        plutôt que 20 positions diluées.
+                    </li>
+                    <li>
+                        <strong>Asymétrie risque/rendement :</strong> Finance onchain = risque élevé mais potentiel 
+                        10-50x sur 3-5 ans.
+                    </li>
+                    <li>
+                        <strong>Protection via CHF :</strong> 25% en devise refuge pour absorber les chocs de 
+                        volatilité sur les autres positions.
+                    </li>
+                    <li>
+                        <strong>Pas d'allocation US equity :</strong> Conformément à la thèse macro (section 1), 
+                        sortie complète des indices américains.
+                    </li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Scénarios d'ajustement</h3>
+
+            <div class="scenario-grid">
+                <div class="scenario-card">
+                    <div class="scenario-title">📈 Scénario bull crypto</div>
+                    <div class="scenario-prob">Probabilité : 40%</div>
+                    <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                        Adoption massive finance onchain, ETF Bitcoin/Ethereum approuvés mondialement. 
+                        → Augmenter allocation Hype à 50%, réduire CHF à 15%.
+                    </p>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-title">☢️ Renaissance nucléaire accélérée</div>
+                    <div class="scenario-prob">Probabilité : 35%</div>
+                    <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                        Annonces massives de nouveaux réacteurs (Chine, Inde, USA), uranium >120 $/lb. 
+                        → Augmenter nucléaire/métaux à 45%, réduire Hype à 30%.
+                    </p>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-title">📉 Crise systémique</div>
+                    <div class="scenario-prob">Probabilité : 25%</div>
+                    <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                        Récession US, crash marché actions, tensions géopolitiques majeures (Taïwan). 
+                        → Augmenter CHF à 60%, réduire Hype à 15%, maintenir métaux à 25%.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SUIVI -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-number">5</span>
+                Suivi et remise en question
+            </h2>
+
+            <p>
+                Toute thèse d'investissement doit être <strong>falsifiable</strong> : il faut définir à 
+                l'avance quels faits invalideraient la thèse, pour éviter le piège de la confirmation bias 
+                (ne voir que ce qui confirme nos croyances).
+            </p>
+
+            <h3 class="section-subtitle">Revues trimestrielles</h3>
+
+            <p>
+                Chaque trimestre (janvier, avril, juillet, octobre), une revue complète sera publiée incluant :
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Performance des thèses :</strong> Comparaison vs benchmarks (S&P 500, or, Bitcoin)
+                </li>
+                <li>
+                    <strong>Événements survenus :</strong> Validation ou invalidation des catalyseurs anticipés
+                </li>
+                <li>
+                    <strong>Ajustements effectués :</strong> Réallocations, prises de profit, coupes de pertes
+                </li>
+                <li>
+                    <strong>Enseignements :</strong> Ce qui a fonctionné, ce qui a échoué, pourquoi
+                </li>
+            </ul>
+
+            <div class="info-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-info); font-size: 1.2rem;">
+                    Exemple de critères d'invalidation par thèse
+                </h4>
+                <table class="data-table" style="margin: 1rem 0 0 0;">
+                    <thead>
+                        <tr>
+                            <th>Thèse</th>
+                            <th>Critère d'invalidation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sortie marché US</td>
+                            <td>
+                                Réduction significative déficit US (&lt;3% PIB) + normalisation tensions 
+                                géopolitiques → Réévaluation possible
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nucléaire / Uranium</td>
+                            <td>
+                                Annulation de 50+ réacteurs prévus OU prix uranium &lt;50 $/lb durablement 
+                                → Sortie de position
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Finance onchain</td>
+                            <td>
+                                Régulation draconienne interdisant DEX OU hack majeur compromettant confiance 
+                                → Réduction allocation à 10%
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="section-subtitle">Bilan annuel</h3>
+
+            <p>
+                En décembre de chaque année, un bilan complet sera publié avec :
+            </p>
+
+            <ul>
+                <li>Performance annuelle vs benchmarks</li>
+                <li>Revue de toutes les thèses (maintenues, modifiées, abandonnées)</li>
+                <li>Principales erreurs et enseignements</li>
+                <li>Vision pour l'année suivante</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4 style="margin-bottom: 1rem; color: var(--color-accent); font-size: 1.2rem;">
+                    Engagement de transparence
+                </h4>
+                <p style="margin: 0;">
+                    Toutes les positions, performances et ajustements seront documentés publiquement. 
+                    Les erreurs seront assumées et analysées avec autant de détail que les succès. 
+                    L'objectif n'est pas de "toujours avoir raison", mais de <strong>progresser dans 
+                    la compréhension des forces structurelles</strong> qui façonnent les marchés.
+                </p>
+            </div>
+        </section>
+
+        <!-- DISCLAIMER FINAL -->
+        <div class="warning-box" style="margin-top: 4rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--color-warning); font-size: 1.3rem;">
+                ⚠️ Avertissement légal
+            </h3>
+            <p style="margin-bottom: 1rem;">
+                Ce contenu présente une <strong>analyse personnelle à but éducatif</strong> et ne constitue 
+                en aucun cas un conseil en investissement personnalisé, une recommandation d'achat ou de vente, 
+                ni une incitation à investir.
+            </p>
+            <p style="margin-bottom: 1rem;">
+                Les thèses présentées reposent sur des hypothèses géopolitiques, énergétiques et financières 
+                qui peuvent se révéler incorrectes. Les marchés peuvent rester irrationnels plus longtemps 
+                qu'un investisseur peut rester solvable.
+            </p>
+            <p style="margin-bottom: 1rem;">
+                <strong>Tout investissement comporte des risques de perte en capital.</strong> Les performances 
+                passées ne préjugent pas des performances futures.
+            </p>
+            <p style="margin: 0;">
+                Consultez un conseiller financier agréé avant toute décision d'investissement. L'auteur de 
+                cette analyse décline toute responsabilité en cas de pertes liées à l'utilisation de ce contenu.
+            </p>
+        </div>
+
+        <div style="text-align: center; padding: 3rem 0 2rem; border-top: 1px solid var(--color-border); margin-top: 4rem;">
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">
+                <a href="./geopolitique-finance.html" style="color: var(--color-accent); text-decoration: none;">
+                    ← Retour à l'accueil
+                </a>
+            </p>
+            <p style="color: var(--color-text-muted); font-size: 0.9rem;">
+                Dernière mise à jour : Janvier 2026
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Animation des barres au chargement
+        window.addEventListener('load', function() {
+            const bars = document.querySelectorAll('.bar-fill');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

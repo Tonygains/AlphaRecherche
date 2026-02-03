@@ -3,1556 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atlas Géopolitique & Marchés — Analyses d'investissement géopolitiques</title>
-    <meta name="description" content="Analyses financières à travers le prisme de la géopolitique. Thèses d'investissement, portefeuille public et décryptage des dynamiques mondiales.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Atlas — Analyses Géopolitiques & Marchés</title>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --color-bg: #0a0a0a;
-            --color-surface: #1a1a1a;
-            --color-text: #e8e8e8;
-            --color-text-muted: #a0a0a0;
-            --color-accent: #d4af37;
-            --color-accent-dim: #8b7623;
-            --color-border: #2a2a2a;
-            --color-warning: #c85a54;
-            
-            --font-serif: 'Crimson Pro', Georgia, serif;
-            --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
-            
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--color-text);
-            background: var(--color-bg);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* NAVIGATION */
-        .nav-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(10, 10, 10, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--color-border);
-            z-index: 1000;
-            animation: slideDown 0.6s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--color-accent);
-            text-decoration: none;
-            letter-spacing: -0.02em;
-            transition: var(--transition);
-        }
-
-        .logo:hover {
-            color: var(--color-text);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--color-text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--color-accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-text);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* HERO SECTION */
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            position: relative;
-            z-index: 1;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-tag {
-            display: inline-block;
-            color: var(--color-accent);
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.2s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .hero h1 {
-            font-family: var(--font-serif);
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
-            color: var(--color-text);
-            letter-spacing: -0.03em;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.4s forwards;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.35rem);
-            color: var(--color-text-muted);
-            line-height: 1.6;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.6s forwards;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.8s forwards;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 2px;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            letter-spacing: 0.03em;
-        }
-
-        .btn-primary {
-            background: var(--color-accent);
-            color: var(--color-bg);
-        }
-
-        .btn-primary:hover {
-            background: var(--color-text);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-text);
-            border: 1px solid var(--color-border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--color-accent);
-            color: var(--color-accent);
-        }
-
-        /* MAIN CONTENT */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-        }
-
-        .section {
-            margin-bottom: 8rem;
-        }
-
-        .section-header {
-            margin-bottom: 4rem;
-            text-align: center;
-        }
-
-        .section-tag {
-            color: var(--color-accent);
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-family: var(--font-serif);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--color-text);
-            margin-bottom: 1rem;
-        }
-
-        .section-description {
-            font-size: 1.15rem;
-            color: var(--color-text-muted);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* GRID LAYOUTS */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card {
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            padding: 2.5rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--color-accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .card:hover {
-            border-color: var(--color-accent-dim);
-            transform: translateY(-4px);
-        }
-
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--color-text);
-        }
-
-        .card-text {
-            color: var(--color-text-muted);
-            line-height: 1.7;
-        }
-
-        /* DISCLAIMER BOX */
-        .disclaimer-box {
-            background: rgba(200, 90, 84, 0.1);
-            border-left: 3px solid var(--color-warning);
-            padding: 2rem;
-            margin: 3rem 0;
-            font-size: 0.95rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-        }
-
-        .disclaimer-box strong {
-            color: var(--color-warning);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        /* PORTFOLIO TABLE */
-        .portfolio-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .portfolio-date {
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-        }
-
-        .portfolio-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            margin-bottom: 3rem;
-        }
-
-        .portfolio-table thead {
-            background: rgba(212, 175, 55, 0.08);
-        }
-
-        .portfolio-table th {
-            padding: 1.2rem 1.5rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: var(--color-accent);
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .portfolio-table td {
-            padding: 1.2rem 1.5rem;
-            border-bottom: 1px solid var(--color-border);
-            color: var(--color-text);
-        }
-
-        .portfolio-table tbody tr {
-            transition: var(--transition);
-        }
-
-        .portfolio-table tbody tr:hover {
-            background: rgba(212, 175, 55, 0.05);
-        }
-
-        .category-header {
-            background: rgba(212, 175, 55, 0.12) !important;
-            font-weight: 600;
-            color: var(--color-accent) !important;
-        }
-
-        .allocation-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .bar-container {
-            flex: 1;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dim));
-            transition: width 0.6s ease;
-        }
-
-        .percentage {
-            font-weight: 600;
-            color: var(--color-accent);
-            min-width: 50px;
-            text-align: right;
-        }
-
-        /* THESIS ARTICLE */
-        .thesis-article {
-            max-width: 850px;
-            margin: 0 auto;
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            padding: 4rem;
-        }
-
-        .thesis-header {
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--color-border);
-            padding-bottom: 2rem;
-        }
-
-        .thesis-meta {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-        }
-
-        .thesis-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .thesis-title {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        .thesis-excerpt {
-            font-size: 1.2rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-        }
-
-        .thesis-section {
-            margin-bottom: 3rem;
-        }
-
-        .thesis-section h3 {
-            font-family: var(--font-serif);
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--color-accent);
-        }
-
-        .thesis-section h4 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 1.5rem 0 0.8rem;
-            color: var(--color-text);
-        }
-
-        .thesis-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .thesis-section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .thesis-section li {
-            padding-left: 1.5rem;
-            margin-bottom: 0.8rem;
-            position: relative;
-        }
-
-        .thesis-section li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--color-accent);
-        }
-
-        .highlight-box {
-            background: rgba(212, 175, 55, 0.08);
-            border-left: 3px solid var(--color-accent);
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .scenario-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .scenario-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--color-border);
-            padding: 1.5rem;
-        }
-
-        .scenario-card h5 {
-            color: var(--color-accent);
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* FOOTER */
-        footer {
-            background: var(--color-surface);
-            border-top: 1px solid var(--color-border);
-            padding: 4rem 2rem 2rem;
-            margin-top: 6rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h4 {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--color-accent);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: var(--color-text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--color-accent);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid var(--color-border);
-            text-align: center;
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .hero {
-                min-height: 70vh;
-                padding: 6rem 1.5rem 3rem;
-            }
-
-            .container {
-                padding: 4rem 1.5rem;
-            }
-
-            .thesis-article {
-                padding: 2rem 1.5rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        /* SMOOTH SCROLL */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* PAGE SECTIONS */
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-            animation: fadeInSection 0.5s ease;
-        }
-
-        @keyframes fadeInSection {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        :root{--bg:#0a0a0a;--surface:#1a1a1a;--text:#e8e8e8;--muted:#a0a0a0;--accent:#d4af37;--border:#2a2a2a;--warning:#c85a54;--success:#4ade80;--serif:'Crimson Pro',Georgia,serif;--sans:'IBM Plex Sans',-apple-system,sans-serif}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg)}
+        nav{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:1.5rem 2rem;position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:center;gap:3rem}
+        nav a{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500;transition:all .3s}
+        nav a:hover,nav a.active{color:var(--accent)}
+        .hero{min-height:85vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;background:linear-gradient(180deg,#0a0a0a 0%,#1a1a1a 100%)}
+        .hero h1{font-family:var(--serif);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;margin-bottom:1.5rem}
+        .hero p{font-size:1.2rem;color:var(--muted);max-width:700px;margin:0 auto 3rem}
+        .btn{display:inline-block;padding:1rem 2.5rem;font-size:.95rem;font-weight:600;text-decoration:none;border-radius:2px;transition:all .3s;background:var(--accent);color:var(--bg)}
+        .btn:hover{transform:translateY(-2px)}
+        .container{max-width:1400px;margin:0 auto;padding:6rem 2rem}
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:3rem 0}
+        .stat-card{background:var(--surface);border:1px solid var(--border);padding:2rem;text-align:center}
+        .stat-label{font-size:.85rem;color:var(--muted);text-transform:uppercase;margin-bottom:.8rem}
+        .stat-value{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--accent)}
+        .stat-value.positive{color:var(--success)}
+        .stat-value.negative{color:var(--warning)}
+        .chart-wrapper{background:var(--surface);border:1px solid var(--border);padding:2rem;margin:3rem 0}
+        .chart-title{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--accent);margin-bottom:2rem;text-align:center}
+        table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);margin:2rem 0}
+        th{background:rgba(212,175,55,.08);padding:1rem;text-align:left;font-weight:600;font-size:.85rem;color:var(--accent);border-bottom:1px solid var(--border)}
+        td{padding:1rem;border-bottom:1px solid var(--border)}
+        .page{display:none}
+        .page.active{display:block}
+        .badge{padding:.3rem .8rem;border-radius:3px;font-size:.8rem;font-weight:600}
+        .badge.buy{background:rgba(74,222,128,.2);color:var(--success)}
+        .disclaimer{background:rgba(200,90,84,.1);border-left:3px solid var(--warning);padding:2rem;margin:3rem 0;font-size:.95rem;color:var(--muted)}
+        @media(max-width:768px){nav{flex-direction:column;gap:1rem}}
     </style>
 </head>
 <body>
-    <!-- NAVIGATION -->
-    <div class="nav-wrapper">
-        <nav>
-            <a href="#accueil" class="logo" onclick="showPage('accueil')">ATLAS</a>
-            <ul class="nav-links">
-                <li><a href="#accueil" onclick="showPage('accueil')">Accueil</a></li>
-                <li><a href="#portefeuille" onclick="showPage('portefeuille')">Portefeuille</a></li>
-                <li><a href="#theses" onclick="showPage('theses')">Thèses</a></li>
-                <li><a href="#analyses" onclick="showPage('analyses')">Géopolitique</a></li>
-                <li><a href="#newsletter" onclick="showPage('newsletter')">Newsletter</a></li>
-                <li><a href="#apropos" onclick="showPage('apropos')">À propos</a></li>
-            </ul>
-        </nav>
-    </div>
+    <nav>
+        <a href="#" onclick="show('home')" class="active">Accueil</a>
+        <a href="#" onclick="show('portfolio')">Portefeuille</a>
+        <a href="vision-2026.html">Vision 2026</a>
+    </nav>
 
-    <!-- PAGE: ACCUEIL -->
-    <div id="accueil" class="page-section active">
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-tag">Analyses Géopolitiques & Marchés Financiers</div>
-                <h1>Comprendre les marchés à travers la géopolitique mondiale</h1>
-                <p class="hero-subtitle">
-                    Thèses d'investissement basées sur les dynamiques géopolitiques : tensions Chine-USA, 
-                    souveraineté énergétique, transitions technologiques et grands bouleversements mondiaux.
-                </p>
-                <div class="cta-buttons">
-                    <a href="#portefeuille" class="btn btn-primary" onclick="showPage('portefeuille')">Voir le portefeuille</a>
-                    <a href="#theses" class="btn btn-secondary" onclick="showPage('theses')">Explorer les thèses</a>
-                </div>
-            </div>
-        </section>
-
-        <div class="container">
-            <!-- ARTICLE EN VEDETTE : VISION 2026 -->
-            <section class="section" style="margin-bottom: 6rem;">
-                <div class="card" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.02) 100%); border: 2px solid var(--color-accent); padding: 3.5rem; margin-bottom: 0;">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <div style="color: var(--color-accent); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem;">
-                            📌 Article principal
-                        </div>
-                        <h2 style="font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-text);">
-                            Vision 2026
-                        </h2>
-                        <p style="font-size: 1.2rem; color: var(--color-text-muted); max-width: 700px; margin: 0 auto;">
-                            Analyse géopolitique, énergétique et financière des forces structurelles qui façonnent les marchés
-                        </p>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2.5rem 0;">
-                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                            <div style="font-size: 2.5rem;">📉</div>
-                            <div>
-                                <strong style="display: block; margin-bottom: 0.5rem; color: var(--color-text); font-size: 1.1rem;">
-                                    Sortie du marché US
-                                </strong>
-                                <p style="color: var(--color-text-muted); margin: 0; line-height: 1.7; font-size: 0.95rem;">
-                                    Concentration excessive, dette >120% PIB. Sortie progressive envisagée 
-                                    autour de 7 300 points S&P 500. Correction vers 5 500 possible.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                            <div style="font-size: 2.5rem;">☢️</div>
-                            <div>
-                                <strong style="display: block; margin-bottom: 0.5rem; color: var(--color-text); font-size: 1.1rem;">
-                                    Nucléaire & métaux stratégiques
-                                </strong>
-                                <p style="color: var(--color-text-muted); margin: 0; line-height: 1.7; font-size: 0.95rem;">
-                                    Densité énergétique 2M fois supérieure au pétrole. Uranium et cuivre 
-                                    comme opportunités pour datacenters IA et réindustrialisation.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                            <div style="font-size: 2.5rem;">🚀</div>
-                            <div>
-                                <strong style="display: block; margin-bottom: 0.5rem; color: var(--color-text); font-size: 1.1rem;">
-                                    Finance onchain
-                                </strong>
-                                <p style="color: var(--color-text-muted); margin: 0; line-height: 1.7; font-size: 0.95rem;">
-                                    Trading 24/7 non-custodial via Hyperliquid. Prediction markets comme 
-                                    nouvelle classe d'actifs informationnels.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 2.5rem;">
-                        <a href="vision-2026.html" class="btn btn-primary" style="display: inline-block; font-size: 1.05rem; padding: 1.1rem 2.8rem;">
-                            Lire l'article complet →
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <div class="section-header">
-                    <div class="section-tag">Notre Approche</div>
-                    <h2 class="section-title">Une méthodologie analytique rigoureuse</h2>
-                    <p class="section-description">
-                        Nous décryptons les marchés financiers en analysant les dynamiques géopolitiques 
-                        qui les influencent profondément.
-                    </p>
-                </div>
-
-                <div class="grid-3">
-                    <div class="card">
-                        <div class="card-icon">🌍</div>
-                        <h3 class="card-title">Analyse géopolitique</h3>
-                        <p class="card-text">
-                            Décryptage des tensions internationales, conflits d'intérêts, 
-                            politiques monétaires et stratégies souveraines.
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-icon">📊</div>
-                        <h3 class="card-title">Thèses d'investissement</h3>
-                        <p class="card-text">
-                            Scénarios documentés avec horizons temporels, risques identifiés 
-                            et allocations stratégiques mesurées.
-                        </p>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-icon">🎯</div>
-                        <h3 class="card-title">Transparence totale</h3>
-                        <p class="card-text">
-                            Portefeuille public actualisé, revues trimestrielles et analyse 
-                            des performances pour un suivi rigoureux.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <div class="disclaimer-box">
-                <strong>⚠️ Avertissement important</strong>
-                Ce site fournit des analyses à titre éducatif et informatif uniquement. Le contenu publié 
-                ne constitue en aucun cas un conseil en investissement personnalisé, une recommandation 
-                d'achat ou de vente, ni une incitation à investir. Les performances passées ne préjugent 
-                pas des performances futures. Tout investissement comporte des risques de perte en capital. 
-                Consultez un conseiller financier agréé avant toute décision d'investissement.
+    <div id="home" class="page active">
+        <div class="hero">
+            <div>
+                <h1>Atlas Géopolitique</h1>
+                <p>Portefeuille de 50k$ suivi en temps réel. Thèses basées sur la géopolitique, le nucléaire et la finance onchain.</p>
+                <a href="#" onclick="show('portfolio')" class="btn">Voir le portefeuille →</a>
             </div>
         </div>
     </div>
 
-    <!-- PAGE: PORTEFEUILLE -->
-    <div id="portefeuille" class="page-section">
-        <div class="container" style="padding-top: 8rem;">
-            <div class="section-header">
-                <div class="section-tag">Allocation publique</div>
-                <h2 class="section-title">Portefeuille stratégique</h2>
-                <p class="section-description">
-                    Répartition actuelle des actifs exprimée en pourcentages. 
-                    Ce portefeuille reflète nos thèses géopolitiques actuelles.
-                </p>
+    <div id="portfolio" class="page">
+        <div class="container" style="padding-top:8rem">
+            <h1 style="font-family:var(--serif);font-size:3rem;text-align:center;margin-bottom:1rem">Portefeuille Modèle — 50 000 $</h1>
+            <p style="text-align:center;color:var(--muted);margin-bottom:3rem">Suivi en temps réel • Comparaison vs 70% S&P500 + 30% SMI</p>
+
+            <div class="disclaimer">
+                <strong style="color:var(--warning)">⚠️ Portefeuille modèle éducatif</strong><br>
+                Ce portefeuille de 50k$ est un exemple pédagogique. Ne le répliquez pas sans consulter un conseiller financier.
             </div>
 
-            <div class="disclaimer-box">
-                <strong>⚠️ Ce n'est pas un conseil en investissement</strong>
-                Cette allocation est partagée à titre éducatif pour illustrer notre méthodologie d'analyse. 
-                Elle ne doit en aucun cas être répliquée. Chaque investisseur a un profil de risque, 
-                un horizon temporel et des objectifs différents.
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-label">Valeur actuelle</div>
+                    <div class="stat-value" id="total">$50,000</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Performance</div>
+                    <div class="stat-value" id="perf">0.00%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">vs Benchmark</div>
+                    <div class="stat-value" id="bench">—</div>
+                </div>
             </div>
 
-            <div class="portfolio-header">
-                <h3 style="font-family: var(--font-serif); font-size: 1.8rem;">Allocation actuelle</h3>
-                <div class="portfolio-date">Dernière mise à jour : 25 janvier 2026</div>
+            <div class="chart-wrapper">
+                <div class="chart-title">Allocation actuelle (temps réel)</div>
+                <canvas id="chart"></canvas>
             </div>
 
-            <table class="portfolio-table">
-                <thead>
-                    <tr>
-                        <th>Actif / Catégorie</th>
-                        <th>Allocation</th>
-                        <th>Rationale</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- ACTIONS -->
-                    <tr class="category-header">
-                        <td colspan="3">ACTIONS (48%)</td>
-                    </tr>
-                    <tr>
-                        <td>ETF MSCI World</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 60%;"></div>
-                                </div>
-                                <span class="percentage">18%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Exposition diversifiée marchés développés</td>
-                    </tr>
-                    <tr>
-                        <td>Secteur nucléaire (uranium)</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 33%;"></div>
-                                </div>
-                                <span class="percentage">10%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Transition énergétique + souveraineté</td>
-                    </tr>
-                    <tr>
-                        <td>Défense & cybersécurité</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 27%;"></div>
-                                </div>
-                                <span class="percentage">8%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Réarmement européen + tensions géopolitiques</td>
-                    </tr>
-                    <tr>
-                        <td>Métaux critiques (lithium, cuivre)</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 25%;"></div>
-                                </div>
-                                <span class="percentage">12%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Électrification mondiale + supply chain</td>
-                    </tr>
+            <div class="chart-wrapper">
+                <div class="chart-title">Positions détaillées</div>
+                <table>
+                    <thead>
+                        <tr><th>Actif</th><th>Quantité</th><th>Prix achat</th><th>Prix actuel</th><th>Valeur</th><th>P&L</th></tr>
+                    </thead>
+                    <tbody id="positions"></tbody>
+                </table>
+            </div>
 
-                    <!-- CRYPTO -->
-                    <tr class="category-header">
-                        <td colspan="3">CRYPTO-ACTIFS (22%)</td>
-                    </tr>
-                    <tr>
-                        <td>Bitcoin</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 68%;"></div>
-                                </div>
-                                <span class="percentage">15%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Réserve de valeur décentralisée</td>
-                    </tr>
-                    <tr>
-                        <td>Ethereum</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 32%;"></div>
-                                </div>
-                                <span class="percentage">7%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Infrastructure finance décentralisée</td>
-                    </tr>
-
-                    <!-- MÉTAUX -->
-                    <tr class="category-header">
-                        <td colspan="3">MÉTAUX PRÉCIEUX (15%)</td>
-                    </tr>
-                    <tr>
-                        <td>Or physique & ETF</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 67%;"></div>
-                                </div>
-                                <span class="percentage">10%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Protection contre inflation + tensions monétaires</td>
-                    </tr>
-                    <tr>
-                        <td>Argent</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 33%;"></div>
-                                </div>
-                                <span class="percentage">5%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Usage industriel (solaire, électronique)</td>
-                    </tr>
-
-                    <!-- CASH -->
-                    <tr class="category-header">
-                        <td colspan="3">LIQUIDITÉS (15%)</td>
-                    </tr>
-                    <tr>
-                        <td>Cash & équivalents</td>
-                        <td>
-                            <div class="allocation-bar">
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 100%;"></div>
-                                </div>
-                                <span class="percentage">15%</span>
-                            </div>
-                        </td>
-                        <td style="color: var(--color-text-muted); font-size: 0.9rem;">Opportunités + protection court terme</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="highlight-box">
-                <h4 style="color: var(--color-accent); margin-bottom: 1rem;">Raisonnement stratégique</h4>
-                <p style="line-height: 1.7; margin-bottom: 1rem;">
-                    Cette allocation reflète plusieurs convictions géopolitiques majeures :
-                </p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                        <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                        <strong>Réarmement mondial</strong> : tensions Chine-USA, guerre en Ukraine, 
-                        instabilité au Moyen-Orient → surpondération défense.
-                    </li>
-                    <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                        <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                        <strong>Transition énergétique</strong> : nucléaire comme solution de souveraineté, 
-                        métaux critiques en tension (lithium, cuivre, terres rares).
-                    </li>
-                    <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                        <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                        <strong>Dédollarisation progressive</strong> : Bitcoin et or comme alternatives 
-                        au système monétaire dominé par le dollar.
-                    </li>
-                    <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                        <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                        <strong>Inflation structurelle</strong> : démondialisation, coûts énergétiques, 
-                        déficits publics → protection via métaux précieux.
-                    </li>
-                </ul>
+            <div class="chart-wrapper">
+                <div class="chart-title">Historique des transactions</div>
+                <table>
+                    <thead>
+                        <tr><th>Date</th><th>Type</th><th>Actif</th><th>Quantité</th><th>Prix</th><th>Montant</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>03/02/2026</td><td><span class="badge buy">ACHAT</span></td><td>CHF (Cash)</td><td>20,000</td><td>$1.00</td><td>$20,000</td></tr>
+                        <tr><td>03/02/2026</td><td><span class="badge buy">ACHAT</span></td><td>HYPE</td><td>500</td><td>$30.00</td><td>$15,000</td></tr>
+                        <tr><td>03/02/2026</td><td><span class="badge buy">ACHAT</span></td><td>URNM</td><td id="urnm-qty">—</td><td id="urnm-px">—</td><td>$15,000</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
-    <!-- PAGE: THÈSES -->
-    <div id="theses" class="page-section">
-        <div class="container" style="padding-top: 8rem;">
-            <div class="section-header">
-                <div class="section-tag">Analyses Stratégiques</div>
-                <h2 class="section-title">Thèses d'investissement</h2>
-                <p class="section-description">
-                    Scénarios géopolitiques détaillés avec opportunités d'allocation correspondantes.
-                </p>
-            </div>
-
-            <div class="thesis-article">
-                <div class="thesis-header">
-                    <div class="thesis-meta">
-                        <span>📅 12 janvier 2026</span>
-                        <span>⏱️ 8 min de lecture</span>
-                        <span>🎯 Horizon : 24-36 mois</span>
-                    </div>
-                    <h1 class="thesis-title">Réarmement européen : opportunité structurelle dans la défense</h1>
-                    <p class="thesis-excerpt">
-                        La guerre en Ukraine et les tensions géopolitiques croissantes forcent l'Europe 
-                        à repenser sa souveraineté militaire. Analyse d'une tendance de fond pour la décennie.
-                    </p>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>1. Contexte géopolitique</h3>
-                    
-                    <h4>La fin du "dividende de la paix"</h4>
-                    <p>
-                        Depuis la chute du Mur de Berlin (1989), les budgets militaires européens ont 
-                        constamment baissé, passant d'une moyenne de 3,5% du PIB à moins de 1,5% en 2020. 
-                        Cette période de sous-investissement structurel a créé d'importantes lacunes capacitaires.
-                    </p>
-                    
-                    <h4>Catalyseurs du changement</h4>
-                    <ul>
-                        <li>Invasion russe de l'Ukraine (février 2022) : choc stratégique majeur</li>
-                        <li>Retrait américain d'Afghanistan : questionnement de la garantie OTAN</li>
-                        <li>Tensions sino-américaines croissantes : risque de réallocation militaire US vers Indo-Pacifique</li>
-                        <li>Déclarations Trump sur conditionnalité de l'article 5 de l'OTAN</li>
-                    </ul>
-
-                    <p>
-                        Conséquence : consensus politique inédit en Europe pour atteindre 2% du PIB minimum 
-                        (objectif OTAN), voire 3% pour certains pays (Pologne, États baltes).
-                    </p>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>2. Données économiques clés</h3>
-                    
-                    <div class="highlight-box">
-                        <strong style="display: block; margin-bottom: 0.8rem;">Augmentation budgétaire prévue</strong>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem;">
-                                → Budget défense UE 2023 : ~240 milliards €
-                            </li>
-                            <li style="margin-bottom: 0.5rem;">
-                                → Projection 2030 (2% PIB) : ~400 milliards €
-                            </li>
-                            <li style="margin-bottom: 0.5rem;">
-                                → Soit +160 milliards € de dépenses annuelles supplémentaires
-                            </li>
-                        </ul>
-                    </div>
-
-                    <h4>Secteurs prioritaires identifiés</h4>
-                    <ul>
-                        <li><strong>Munitions et artillerie</strong> : pénuries critiques révélées par l'Ukraine</li>
-                        <li><strong>Drones et guerre électronique</strong> : révolution tactique en cours</li>
-                        <li><strong>Cyberdéfense</strong> : nouveau champ de bataille stratégique</li>
-                        <li><strong>Défense aérienne</strong> : protection territoire face menaces missiles/drones</li>
-                        <li><strong>Autonomie stratégique</strong> : réduction dépendance fournisseurs US</li>
-                    </ul>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>3. Opportunité d'investissement</h3>
-                    
-                    <h4>Acteurs positionnés</h4>
-                    <p>
-                        Les industriels européens de la défense bénéficient d'un carnet de commandes 
-                        en forte croissance et d'une visibilité pluriannuelle exceptionnelle :
-                    </p>
-                    <ul>
-                        <li>Rheinmetall (Allemagne) : artillerie, véhicules blindés, munitions</li>
-                        <li>Thales (France) : électronique de défense, cybersécurité, systèmes aériens</li>
-                        <li>Leonardo (Italie) : aéronautique, hélicoptères, électronique</li>
-                        <li>BAE Systems (UK) : systèmes d'armes, naval, cyberdéfense</li>
-                        <li>Saab (Suède) : avions de combat, défense aérienne</li>
-                    </ul>
-
-                    <h4>Valorisations et marges</h4>
-                    <p>
-                        Le secteur reste raisonnablement valorisé (PER moyen 15-20x) comparé à d'autres 
-                        secteurs bénéficiant de tendances structurelles. Les marges opérationnelles 
-                        s'améliorent grâce aux économies d'échelle sur volumes croissants.
-                    </p>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>4. Actifs concernés & Taille de position</h3>
-                    
-                    <div class="highlight-box">
-                        <strong style="display: block; margin-bottom: 1rem; color: var(--color-accent);">
-                            Allocation recommandée : 8% du portefeuille total
-                        </strong>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 0.6rem;">
-                                • ETF défense Europe (iShares Stoxx Europe 600 Aerospace & Defence) : 5%
-                            </li>
-                            <li style="margin-bottom: 0.6rem;">
-                                • Sélection d'actions individuelles (Rheinmetall, Thales) : 3%
-                            </li>
-                        </ul>
-                    </div>
-
-                    <p style="margin-top: 1.5rem;">
-                        Exposition via ETF pour diversification, complétée par positions ciblées sur 
-                        leaders technologiques bénéficiant des plus fortes marges et visibilité.
-                    </p>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>5. Risques identifiés</h3>
-                    
-                    <ul>
-                        <li>
-                            <strong>Risque politique :</strong> changement de majorités favorables à réduction 
-                            budgets défense (peu probable à court-moyen terme)
-                        </li>
-                        <li>
-                            <strong>Résolution rapide conflit Ukraine :</strong> pourrait ralentir urgence perçue, 
-                            mais tendance structurelle persisterait
-                        </li>
-                        <li>
-                            <strong>Contraintes budgétaires :</strong> dettes publiques élevées pourraient limiter 
-                            ampleur réarmement
-                        </li>
-                        <li>
-                            <strong>Risque ESG :</strong> exclusion potentielle par fonds responsables (impact marginal)
-                        </li>
-                        <li>
-                            <strong>Délais de production :</strong> goulots d'étranglement industriels, difficultés 
-                            recrutement main-d'œuvre qualifiée
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>6. Scénarios possibles</h3>
-                    
-                    <div class="scenario-grid">
-                        <div class="scenario-card">
-                            <h5>📈 Scénario haussier (40%)</h5>
-                            <p style="font-size: 0.9rem; line-height: 1.6; color: var(--color-text-muted);">
-                                Escalade tensions géopolitiques (Chine-Taïwan, etc.), budgets défense → 3% PIB. 
-                                Performance attendue : +60-80% sur 3 ans.
-                            </p>
-                        </div>
-
-                        <div class="scenario-card">
-                            <h5>➡️ Scénario central (50%)</h5>
-                            <p style="font-size: 0.9rem; line-height: 1.6; color: var(--color-text-muted);">
-                                Atteinte objectif 2% PIB de façon progressive, commandes soutenues. 
-                                Performance attendue : +30-40% sur 3 ans.
-                            </p>
-                        </div>
-
-                        <div class="scenario-card">
-                            <h5>📉 Scénario baissier (10%)</h5>
-                            <p style="font-size: 0.9rem; line-height: 1.6; color: var(--color-text-muted);">
-                                Désescalade majeure, retour focus budgétaire social. 
-                                Performance attendue : -10-15% sur 3 ans.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="thesis-section">
-                    <h3>7. Horizon temporel & Catalyseurs</h3>
-                    
-                    <p><strong>Horizon d'investissement :</strong> 24-36 mois minimum</p>
-                    
-                    <h4>Catalyseurs à surveiller</h4>
-                    <ul>
-                        <li>Annonces budgets défense 2026-2027 (printemps 2026)</li>
-                        <li>Résultats trimestriels industriels défense : carnets de commandes</li>
-                        <li>Évolution conflit Ukraine et tensions géopolitiques</li>
-                        <li>Sommets OTAN et décisions stratégiques européennes</li>
-                        <li>Élections en Europe : positionnement partis sur défense</li>
-                    </ul>
-                </div>
-
-                <div class="disclaimer-box">
-                    <strong>⚠️ Rappel important</strong>
-                    Cette analyse est fournie à titre éducatif et ne constitue pas un conseil en investissement 
-                    personnalisé. Les performances passées ne garantissent pas les performances futures. 
-                    Tout investissement comporte des risques. Consultez un professionnel avant toute décision.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: GÉOPOLITIQUE & MARCHÉS -->
-    <div id="analyses" class="page-section">
-        <div class="container" style="padding-top: 8rem;">
-            <div class="section-header">
-                <div class="section-tag">Décryptages</div>
-                <h2 class="section-title">Géopolitique & Marchés</h2>
-                <p class="section-description">
-                    Articles d'analyse sur les grandes dynamiques mondiales et leur impact sur les actifs financiers.
-                </p>
-            </div>
-
-            <div class="grid-3">
-                <div class="card">
-                    <div style="color: var(--color-accent); font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
-                        15 JANVIER 2026
-                    </div>
-                    <h3 class="card-title">Dédollarisation : mythe ou réalité ?</h3>
-                    <p class="card-text">
-                        Analyse de la stratégie des BRICS, du rôle du yuan, et des implications 
-                        pour les investisseurs en devises et métaux précieux.
-                    </p>
-                </div>
-
-                <div class="card">
-                    <div style="color: var(--color-accent); font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
-                        08 JANVIER 2026
-                    </div>
-                    <h3 class="card-title">Souveraineté énergétique européenne</h3>
-                    <p class="card-text">
-                        Comment la crise énergétique redessine la stratégie industrielle européenne 
-                        et les opportunités dans le nucléaire et les renouvelables.
-                    </p>
-                </div>
-
-                <div class="card">
-                    <div style="color: var(--color-accent); font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
-                        22 DÉCEMBRE 2025
-                    </div>
-                    <h3 class="card-title">Tensions Chine-Taïwan : scénarios de marché</h3>
-                    <p class="card-text">
-                        Évaluation des risques géopolitiques et impacts potentiels sur les semi-conducteurs, 
-                        le commerce mondial et les devises refuges.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: NEWSLETTER -->
-    <div id="newsletter" class="page-section">
-        <div class="container" style="padding-top: 8rem;">
-            <div class="section-header">
-                <div class="section-tag">Restez informé</div>
-                <h2 class="section-title">Newsletter mensuelle</h2>
-                <p class="section-description">
-                    Recevez une fois par mois nos analyses géopolitiques, revues de portefeuille 
-                    et perspectives de marché directement dans votre boîte mail.
-                </p>
-            </div>
-
-            <div style="max-width: 600px; margin: 0 auto;">
-                <div class="card" style="padding: 3rem;">
-                    <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center;">
-                        Abonnez-vous gratuitement
-                    </h3>
-                    
-                    <form style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-text-muted); font-size: 0.9rem;">
-                                Adresse email
-                            </label>
-                            <input 
-                                type="email" 
-                                placeholder="votre@email.com"
-                                style="width: 100%; padding: 1rem; background: var(--color-bg); border: 1px solid var(--color-border); color: var(--color-text); font-family: var(--font-sans); font-size: 1rem; border-radius: 2px;"
-                            >
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            S'abonner à la newsletter
-                        </button>
-
-                        <p style="font-size: 0.85rem; color: var(--color-text-muted); text-align: center; line-height: 1.5;">
-                            Vos données restent privées. Pas de spam. 
-                            Désinscription possible à tout moment.
-                        </p>
-                    </form>
-                </div>
-
-                <div style="margin-top: 4rem;">
-                    <h4 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 1.5rem; text-align: center;">
-                        Au programme chaque mois
-                    </h4>
-                    <div class="grid-3" style="grid-template-columns: 1fr;">
-                        <div style="display: flex; gap: 1rem; padding: 1.5rem; background: var(--color-surface); border-left: 2px solid var(--color-accent);">
-                            <div style="font-size: 1.5rem;">📊</div>
-                            <div>
-                                <strong>Revue de portefeuille</strong><br>
-                                <span style="color: var(--color-text-muted); font-size: 0.9rem;">
-                                    Performances, ajustements, enseignements
-                                </span>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1rem; padding: 1.5rem; background: var(--color-surface); border-left: 2px solid var(--color-accent);">
-                            <div style="font-size: 1.5rem;">🌍</div>
-                            <div>
-                                <strong>Analyse géopolitique</strong><br>
-                                <span style="color: var(--color-text-muted); font-size: 0.9rem;">
-                                    Décryptage des événements majeurs
-                                </span>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1rem; padding: 1.5rem; background: var(--color-surface); border-left: 2px solid var(--color-accent);">
-                            <div style="font-size: 1.5rem;">🎯</div>
-                            <div>
-                                <strong>Thèses & Opportunités</strong><br>
-                                <span style="color: var(--color-text-muted); font-size: 0.9rem;">
-                                    Nouvelles convictions d'investissement
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: À PROPOS -->
-    <div id="apropos" class="page-section">
-        <div class="container" style="padding-top: 8rem;">
-            <div class="section-header">
-                <div class="section-tag">Qui sommes-nous</div>
-                <h2 class="section-title">À propos d'Atlas</h2>
-            </div>
-
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div class="card" style="padding: 3rem;">
-                    <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 1.5rem;">
-                        Une approche analytique des marchés financiers
-                    </h3>
-                    
-                    <div style="line-height: 1.8; color: var(--color-text); font-size: 1.05rem;">
-                        <p style="margin-bottom: 1.5rem;">
-                            Atlas est un projet d'analyse indépendante née d'une conviction simple : 
-                            <strong>comprendre les marchés financiers nécessite de comprendre le monde</strong>.
-                        </p>
-
-                        <p style="margin-bottom: 1.5rem;">
-                            Dans un environnement où les tensions géopolitiques s'intensifient (Chine-USA, 
-                            guerre en Ukraine, transition énergétique, dédollarisation...), nous pensons 
-                            qu'une approche purement technique ou financière des investissements est incomplète.
-                        </p>
-
-                        <p style="margin-bottom: 1.5rem;">
-                            Notre méthodologie repose sur :
-                        </p>
-
-                        <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                            <li style="padding-left: 1.5rem; margin-bottom: 1rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                                <strong>L'analyse géopolitique</strong> comme grille de lecture des dynamiques de marché
-                            </li>
-                            <li style="padding-left: 1.5rem; margin-bottom: 1rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                                <strong>La transparence totale</strong> via un portefeuille public actualisé
-                            </li>
-                            <li style="padding-left: 1.5rem; margin-bottom: 1rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                                <strong>L'honnêteté intellectuelle</strong> : nous documentons nos erreurs autant que nos réussites
-                            </li>
-                            <li style="padding-left: 1.5rem; margin-bottom: 1rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-accent);">→</span>
-                                <strong>Une approche pédagogique</strong> : partager notre processus d'analyse, pas vendre des certitudes
-                            </li>
-                        </ul>
-
-                        <div class="highlight-box">
-                            <h4 style="margin-bottom: 1rem; color: var(--color-accent);">Notre mission</h4>
-                            <p style="margin: 0;">
-                                Aider les investisseurs autonomes à développer leur propre grille de lecture 
-                                géopolitique des marchés financiers, en partageant analyses, méthodes et résultats 
-                                de façon transparente et éducative.
-                            </p>
-                        </div>
-
-                        <h4 style="font-family: var(--font-serif); font-size: 1.6rem; margin: 2.5rem 0 1rem; color: var(--color-accent);">
-                            Pourquoi "Atlas" ?
-                        </h4>
-                        <p style="margin-bottom: 1.5rem;">
-                            Atlas, dans la mythologie grecque, portait le monde sur ses épaules. 
-                            Dans notre approche, comprendre les "atlas géopolitiques" — les cartes du pouvoir, 
-                            des ressources, des tensions — est essentiel pour naviguer les marchés financiers.
-                        </p>
-
-                        <h4 style="font-family: var(--font-serif); font-size: 1.6rem; margin: 2.5rem 0 1rem; color: var(--color-accent);">
-                            Ce que nous ne sommes pas
-                        </h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-text-muted);">✗</span>
-                                Un service de conseils en investissement personnalisés
-                            </li>
-                            <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-text-muted);">✗</span>
-                                Une promesse de gains rapides ou de performance garantie
-                            </li>
-                            <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-text-muted);">✗</span>
-                                Un fonds d'investissement ou une société de gestion
-                            </li>
-                            <li style="padding-left: 1.5rem; margin-bottom: 0.8rem; position: relative;">
-                                <span style="position: absolute; left: 0; color: var(--color-text-muted);">✗</span>
-                                Un service payant (tout le contenu est gratuit)
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card" style="padding: 2.5rem; margin-top: 2rem; background: rgba(212, 175, 55, 0.05);">
-                    <h4 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 1rem; color: var(--color-accent);">
-                        Contact
-                    </h4>
-                    <p style="color: var(--color-text-muted); line-height: 1.7;">
-                        Pour toute question, suggestion ou collaboration :<br>
-                        <a href="mailto:contact@atlas-geopolitique.com" style="color: var(--color-accent); text-decoration: none;">
-                            contact@atlas-geopolitique.com
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Atlas</h4>
-                <p style="color: var(--color-text-muted); line-height: 1.6; font-size: 0.95rem;">
-                    Analyses géopolitiques et thèses d'investissement partagées de manière transparente 
-                    et éducative.
-                </p>
-            </div>
-
-            <div class="footer-section">
-                <h4>Navigation</h4>
-                <ul class="footer-links">
-                    <li><a href="#accueil" onclick="showPage('accueil')">Accueil</a></li>
-                    <li><a href="#portefeuille" onclick="showPage('portefeuille')">Portefeuille</a></li>
-                    <li><a href="#theses" onclick="showPage('theses')">Thèses</a></li>
-                    <li><a href="#analyses" onclick="showPage('analyses')">Géopolitique</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Ressources</h4>
-                <ul class="footer-links">
-                    <li><a href="#newsletter" onclick="showPage('newsletter')">Newsletter</a></li>
-                    <li><a href="#apropos" onclick="showPage('apropos')">À propos</a></li>
-                    <li><a href="#mentions" onclick="showPage('mentions')">Mentions légales</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Suivez-nous</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Twitter / X</a></li>
-                    <li><a href="#">LinkedIn</a></li>
-                    <li><a href="#">RSS Feed</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>
-                © 2026 Atlas Géopolitique & Marchés. Tous droits réservés.<br>
-                <strong style="color: var(--color-warning);">
-                    Ce site ne fournit pas de conseils en investissement. Contenu éducatif uniquement.
-                </strong>
-            </p>
-        </div>
-    </footer>
 
     <script>
-        // Navigation entre pages
-        function showPage(pageId) {
-            // Masquer toutes les pages
-            document.querySelectorAll('.page-section').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Afficher la page demandée
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            
-            // Mettre à jour l'URL sans recharger
-            history.pushState(null, '', '#' + pageId);
+        const P={i:50000,chf:{q:20000,bp:1},hype:{q:500,bp:30},urnm:{q:0,bp:0,a:15000}};
+        
+        function show(p){
+            document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+            document.getElementById(p).classList.add('active');
+            document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+            event.target.classList.add('active');
+            if(p==='portfolio')load();
         }
-
-        // Gérer le bouton retour du navigateur
-        window.addEventListener('popstate', function() {
-            const hash = window.location.hash.substring(1) || 'accueil';
-            showPage(hash);
-        });
-
-        // Animation des barres de progression au chargement
-        window.addEventListener('load', function() {
-            const bars = document.querySelectorAll('.bar-fill');
-            bars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 300);
-            });
-        });
-
-        // Afficher la page initiale basée sur l'URL
-        document.addEventListener('DOMContentLoaded', function() {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                showPage(hash);
-            }
-        });
+        
+        async function load(){
+            try{
+                const u=await(await fetch('https://query1.finance.yahoo.com/v8/finance/chart/URNM?interval=1d&range=1d')).json();
+                const c=await(await fetch('https://query1.finance.yahoo.com/v8/finance/chart/USDCHF=X?interval=1d&range=1d')).json();
+                const up=u.chart.result[0].meta.regularMarketPrice;
+                const cp=c.chart.result[0].meta.regularMarketPrice;
+                const hp=30;
+                
+                if(!P.urnm.q){P.urnm.bp=up;P.urnm.q=Math.floor(P.urnm.a/up)}
+                
+                const cv=P.chf.q/cp;
+                const hv=P.hype.q*hp;
+                const uv=P.urnm.q*up;
+                const tv=cv+hv+uv;
+                const pl=tv-P.i;
+                const pp=(pl/P.i)*100;
+                
+                document.getElementById('total').textContent=`$${tv.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,",")}`;
+                document.getElementById('perf').textContent=`${pp>=0?'+':''}${pp.toFixed(2)}%`;
+                document.getElementById('perf').className=`stat-value ${pp>=0?'positive':'negative'}`;
+                
+                document.getElementById('positions').innerHTML=`
+                    <tr><td>CHF</td><td>${P.chf.q.toFixed(0)}</td><td>$${P.chf.bp.toFixed(4)}</td><td>$${(1/cp).toFixed(4)}</td><td>$${cv.toFixed(2)}</td><td style="color:${cv-20000>=0?'var(--success)':'var(--warning)'}">$${(cv-20000).toFixed(2)}</td></tr>
+                    <tr><td>HYPE</td><td>${P.hype.q}</td><td>$${P.hype.bp.toFixed(2)}</td><td>$${hp.toFixed(2)}</td><td>$${hv.toFixed(2)}</td><td style="color:${hv-15000>=0?'var(--success)':'var(--warning)'}">$${(hv-15000).toFixed(2)}</td></tr>
+                    <tr><td>URNM</td><td>${P.urnm.q}</td><td>$${P.urnm.bp.toFixed(2)}</td><td>$${up.toFixed(2)}</td><td>$${uv.toFixed(2)}</td><td style="color:${uv-15000>=0?'var(--success)':'var(--warning)'}">$${(uv-15000).toFixed(2)}</td></tr>
+                `;
+                
+                document.getElementById('urnm-qty').textContent=P.urnm.q;
+                document.getElementById('urnm-px').textContent=`$${P.urnm.bp.toFixed(2)}`;
+                
+                const ctx=document.getElementById('chart');
+                if(window.c)window.c.destroy();
+                window.c=new Chart(ctx,{
+                    type:'doughnut',
+                    data:{
+                        labels:['CHF','HYPE','URNM'],
+                        datasets:[{
+                            data:[cv,hv,uv],
+                            backgroundColor:['rgba(212,175,55,0.8)','rgba(100,149,237,0.8)','rgba(255,165,0,0.8)'],
+                            borderWidth:2
+                        }]
+                    },
+                    options:{
+                        responsive:true,
+                        plugins:{
+                            legend:{position:'bottom',labels:{color:'#e8e8e8',padding:20}},
+                            tooltip:{callbacks:{label:c=>`${c.label}: $${c.parsed.toFixed(2)} (${((c.parsed/tv)*100).toFixed(1)}%)`}}
+                        }
+                    }
+                });
+            }catch(e){console.error(e)}
+        }
     </script>
 </body>
 </html>
